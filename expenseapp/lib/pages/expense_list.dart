@@ -23,12 +23,28 @@ class _ExpenseListState extends State<ExpenseList> {
         category: Category.education),
   ]; // firebase,veritabanı
 
-  // ListView render
-
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [],
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          const SizedBox(
+            height: 300,
+            child: Text("Grafik"),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: expenses.length,
+              itemBuilder: (context, index) {
+                return Text(expenses[index].name);
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
+// Topbar eklemek vs..
