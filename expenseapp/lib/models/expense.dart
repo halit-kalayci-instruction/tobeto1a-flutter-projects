@@ -1,5 +1,6 @@
 // identifier => kimlik belirleyici (id)
 
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 const uuid = Uuid();
@@ -20,6 +21,14 @@ class Expense {
   final double price;
   final DateTime date;
   final Category category;
+
+  // getter method => bir değişken gibi davranır
+  // setter method => bir değişkenin değerini değiştiren method
+
+  String get formattedDate {
+    var formatter = DateFormat.yMd();
+    return formatter.format(date);
+  }
 }
 // e31d96a6-f15e-4787-ad2d-9d3965218523, Yemek, 50
 // a975e32a-999b-47ac-ae73-929a66dd216c, Yemek, 50
