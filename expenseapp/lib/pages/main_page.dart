@@ -1,4 +1,5 @@
 import 'package:expenseapp/pages/expense_list.dart';
+import 'package:expenseapp/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatelessWidget {
@@ -14,7 +15,7 @@ class MainPage extends StatelessWidget {
           IconButton(
               onPressed: () {
                 showModalBottomSheet(
-                    context: context, builder: (ctx) => Text("Modal Deneme"));
+                    context: context, builder: (ctx) => NewExpense());
               },
               icon: const Icon(Icons.add)),
         ],
