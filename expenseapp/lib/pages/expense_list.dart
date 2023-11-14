@@ -32,7 +32,7 @@ class _ExpenseListState extends State<ExpenseList> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           const SizedBox(
-            height: 300,
+            height: 150,
             child: Text("Grafik"),
           ),
           Expanded(
