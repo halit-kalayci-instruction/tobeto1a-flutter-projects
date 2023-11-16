@@ -1,3 +1,4 @@
+import 'package:expenseapp/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -37,9 +38,17 @@ class _NewExpenseState extends State<NewExpense> {
     // });
 
     // await => ilgili async işlemini bekle
+
+    // if(_selectedDate==null)
+    //    time=now
+    // else
+    //   time=_selectedDate
+    // 10:15
     DateTime? selectedDate = await showDatePicker(
         context: context,
-        initialDate: _selectedDate == null ? now : _selectedDate!,
+        initialDate: _selectedDate == null
+            ? now
+            : _selectedDate!, // eğer seçili tarih varsa onu kullan, yoksa günün tarihini kullan..
         firstDate: oneYearAgo,
         lastDate: now);
 
@@ -59,20 +68,46 @@ class _NewExpenseState extends State<NewExpense> {
             maxLength: 50,
             decoration: const InputDecoration(label: Text("Expense Name")),
           ),
-          TextField(
-            controller: _amountController,
-            keyboardType: TextInputType.number,
-            decoration:
-                const InputDecoration(label: Text("Amount"), prefixText: "₺"),
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _amountController,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                      label: Text("Amount"), prefixText: "₺"),
+                ),
+              ),
+              const SizedBox(
+                width: 30,
+              ),
+              Expanded(
+                child: Row(
+                  children: [
+                    IconButton(
+                        onPressed: () => _openDatePicker(),
+                        icon: const Icon(Icons.calendar_month)),
+                    // Ternary Operator
+                    Text(_selectedDate == null
+                        ? "Tarih Seçiniz"
+                        : DateFormat.yMd().format(_selectedDate!)),
+                  ],
+                ),
+              ),
+            ],
+          ), // seçilen tarihi formatlayarak yazdırmak..
+          Row(
+            children: [
+              DropdownButton(
+                  items: Category.values.map((category) {
+                    return DropdownMenuItem(
+                        value: category, child: Text(category.name.toString()));
+                  }).toList(),
+                  onChanged: (value) {
+                    print(value);
+                  })
+            ],
           ),
-          IconButton(
-              onPressed: () => _openDatePicker(),
-              icon: const Icon(Icons.calendar_month)),
-          // Ternary Operator
-          Text(_selectedDate == null
-              ? "Tarih Seçiniz"
-              : DateFormat.yMd().format(
-                  _selectedDate!)), // seçilen tarihi formatlayarak yazdırmak..
           ElevatedButton(
               onPressed: () {
                 print("Kayıt başarılı: ${_nameController.text}");
