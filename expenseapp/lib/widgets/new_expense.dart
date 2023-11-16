@@ -15,6 +15,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _nameController = TextEditingController();
   final _amountController = TextEditingController();
   DateTime? _selectedDate;
+  Category _selectedCategory = Category.work;
 
   void _openDatePicker() async {
     // DatePicker açmak.. ✅
@@ -99,12 +100,15 @@ class _NewExpenseState extends State<NewExpense> {
           Row(
             children: [
               DropdownButton(
+                  value: _selectedCategory,
                   items: Category.values.map((category) {
                     return DropdownMenuItem(
                         value: category, child: Text(category.name.toString()));
                   }).toList(),
                   onChanged: (value) {
-                    print(value);
+                    setState(() {
+                      if (value != null) _selectedCategory = value;
+                    });
                   })
             ],
           ),
