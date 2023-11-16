@@ -97,6 +97,9 @@ class _NewExpenseState extends State<NewExpense> {
               ),
             ],
           ), // seçilen tarihi formatlayarak yazdırmak..
+          const SizedBox(
+            height: 40,
+          ),
           Row(
             children: [
               DropdownButton(
@@ -112,6 +115,7 @@ class _NewExpenseState extends State<NewExpense> {
                   })
             ],
           ),
+          const Spacer(),
           ElevatedButton(
               onPressed: () {
                 print("Kayıt başarılı: ${_nameController.text}");
