@@ -58,6 +58,35 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
+  void _addNewExpense() {
+    final amount = double.tryParse(_amountController.text);
+    // parse, tryParse => parse değer nullsa hata fırlatır, tryParse değeri null olarak alır
+    if (amount == null ||
+        amount < 0 ||
+        _nameController.text.isEmpty ||
+        _selectedDate == null) {
+      /// hatalı durum
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: const Text("Validation Error"),
+              content: const Text("Please fill all blank areas."),
+              actions: [
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(ctx);
+                    },
+                    child: const Text("Okay"))
+              ],
+            );
+          });
+    } else {
+      // valid bir değer
+      // listeye ekleme yapılması gereken nokta..
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -116,11 +145,24 @@ class _NewExpenseState extends State<NewExpense> {
             ],
           ),
           const Spacer(),
-          ElevatedButton(
-              onPressed: () {
-                print("Kayıt başarılı: ${_nameController.text}");
-              },
-              child: const Text("Kaydet"))
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text("Vazgeç")),
+              const SizedBox(
+                width: 30,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    _addNewExpense();
+                  },
+                  child: const Text("Kaydet")),
+            ],
+          )
         ],
       ),
     );

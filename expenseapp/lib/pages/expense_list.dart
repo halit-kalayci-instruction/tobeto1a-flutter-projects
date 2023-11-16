@@ -24,6 +24,7 @@ class _ExpenseListState extends State<ExpenseList> {
         category: Category.education),
   ]; // firebase,veritabanı
 
+  // BLoC Pattern
   @override
   Widget build(BuildContext context) {
     return Center(
