@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({Key? key}) : super(key: key);
+  const NewExpense({Key? key, required this.onAdd}) : super(key: key);
+
+  final void Function(Expense expense) onAdd;
 
   @override
   _NewExpenseState createState() => _NewExpenseState();
@@ -84,6 +86,13 @@ class _NewExpenseState extends State<NewExpense> {
     } else {
       // valid bir değer
       // listeye ekleme yapılması gereken nokta..
+      Expense expense = Expense(
+          name: _nameController.text,
+          price: amount,
+          date: _selectedDate!,
+          category: _selectedCategory);
+      widget.onAdd(expense);
+      Navigator.pop(context);
     }
   }
 
