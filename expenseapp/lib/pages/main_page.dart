@@ -30,6 +30,12 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
+  void removeExpense(Expense expense) {
+    setState(() {
+      expenses.remove(expense);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,7 +54,7 @@ class _MainPageState extends State<MainPage> {
               icon: const Icon(Icons.add)),
         ],
       ),
-      body: ExpenseList(expenses),
+      body: ExpenseList(expenses, removeExpense),
     );
   }
 }

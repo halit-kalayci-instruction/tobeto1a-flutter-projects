@@ -84,8 +84,6 @@ class _NewExpenseState extends State<NewExpense> {
             );
           });
     } else {
-      // valid bir değer
-      // listeye ekleme yapılması gereken nokta..
       Expense expense = Expense(
           name: _nameController.text,
           price: amount,
