@@ -19,9 +19,12 @@ class _ExpenseListState extends State<ExpenseList> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const SizedBox(
+          SizedBox(
             height: 150,
-            child: Text("Grafik"),
+            child: Text(
+              "Grafik",
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
           ),
           Expanded(
             child: ListView.builder(
@@ -46,3 +49,5 @@ class _ExpenseListState extends State<ExpenseList> {
   }
 }
 // Topbar eklemek vs..
+// Theming
+// 10:15
