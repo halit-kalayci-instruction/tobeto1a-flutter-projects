@@ -14,7 +14,7 @@ class _MainPageState extends State<MainPage> {
   final List<Expense> expenses = [
     Expense(
         name: "Yiyecek",
-        price: 200.524,
+        price: 400,
         date: DateTime.now(),
         category: Category.food),
     Expense(
@@ -53,7 +53,9 @@ class _MainPageState extends State<MainPage> {
               icon: const Icon(Icons.add)),
         ],
       ),
-      body: ExpenseList(expenses, removeExpense),
+      body: expenses.length > 0
+          ? ExpenseList(expenses, removeExpense)
+          : Text("Henüz hiç bir veri girmediniz.."),
     );
   }
 }

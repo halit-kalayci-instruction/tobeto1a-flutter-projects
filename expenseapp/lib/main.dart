@@ -28,5 +28,6 @@ void main() {
 
 // modelleme => üzerinde çalışılacak yapıların uygulamada nesne haline getirilmesi
 
+// 11:00 // 
 // global theme modülleri hazırlamak
 // silme işleminde Snackbar gösterilmesi ve undo işleminin kodlanması..
