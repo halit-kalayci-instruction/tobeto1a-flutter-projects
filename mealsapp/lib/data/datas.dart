@@ -15,5 +15,11 @@ const meals = [
       categoryId: "1",
       name: "Mercimek Çorbası",
       imageUrl: "imageUrl",
-      ingredients: ["Malzeme 1", "Malzeme 2", "Malzeme 3"])
+      ingredients: ["Malzeme 1", "Malzeme 2", "Malzeme 3"]),
+  Meal(
+      id: "2",
+      categoryId: "4",
+      name: "Katmer",
+      imageUrl: "imageUrl",
+      ingredients: ["Malzeme 1", "Malzeme 2", "Malzeme 3"]),
 ];
