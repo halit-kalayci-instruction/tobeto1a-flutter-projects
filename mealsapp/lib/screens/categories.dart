@@ -23,10 +23,10 @@ class Categories extends StatelessWidget {
       appBar: AppBar(title: const Text("Bir kategori seçin")),
       body: GridView(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-        ),
+            crossAxisCount: 2,
+            crossAxisSpacing: 20,
+            mainAxisSpacing: 20,
+            childAspectRatio: 2),
         children: [
           for (final category in categories)
             CategoryCard(
