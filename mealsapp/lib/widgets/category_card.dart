@@ -8,14 +8,18 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(colors: [
-            category.color.withOpacity(0.5),
-            category.color.withOpacity(0.9)
-          ], begin: Alignment.topLeft, end: Alignment.bottomRight),
-        ),
-        child: Text(category.name));
+    return InkWell(
+      splashColor: Theme.of(context).primaryColor,
+      onTap: () => {},
+      child: Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [
+              category.color.withOpacity(0.5),
+              category.color.withOpacity(0.9)
+            ], begin: Alignment.topLeft, end: Alignment.bottomRight),
+          ),
+          child: Text(category.name)),
+    );
   }
 }
