@@ -36,6 +36,7 @@ class Categories extends StatelessWidget {
         ],
       ),
       body: GridView(
+        padding: const EdgeInsets.all(16),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 20,

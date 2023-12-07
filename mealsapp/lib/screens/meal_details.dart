@@ -16,7 +16,7 @@ class MealDetails extends ConsumerStatefulWidget {
 class _MealDetailsState extends ConsumerState<MealDetails> {
   @override
   Widget build(BuildContext context) {
-    final favoriteMeals = ref.watch(favoriteMealsProvider);
+    final favoriteMeals = ref.watch(favoriteMealsProvider); // bir veriyi izlemek,takip etmek
 
     return Scaffold(
       appBar: AppBar(
@@ -26,7 +26,7 @@ class _MealDetailsState extends ConsumerState<MealDetails> {
               onPressed: () {
                 ref
                     .read(favoriteMealsProvider.notifier)
-                    .toggleMealFavorite(widget.meal);
+                    .toggleMealFavorite(widget.meal);  // notifier'i okuyup üzerindeki fonks. çalıştırmak
               },
               icon: Icon(favoriteMeals.contains(widget.meal)
                   ? Icons.favorite
