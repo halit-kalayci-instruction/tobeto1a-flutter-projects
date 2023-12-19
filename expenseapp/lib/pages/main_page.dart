@@ -59,4 +59,3 @@ class _MainPageState extends State<MainPage> {
     );
   }
 }
-// 10:40'a kadar aradayız. sonra bireysel ödev için discorddayız..
