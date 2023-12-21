@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:miniblog/models/blog.dart';
 import 'package:http/http.dart' as http;
+import 'package:miniblog/screens/add_blog.dart';
+import 'package:miniblog/widgets/blog_item.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -35,12 +37,25 @@ class _HomepageState extends State<Homepage> {
     return Scaffold(
         appBar: AppBar(
           title: const Text("Bloglar"),
-          actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.add))],
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (ctx) => AddBlog()));
+                },
+                icon: const Icon(Icons.add))
+          ],
         ),
         body: blogs.isEmpty
             ? const Center(child: CircularProgressIndicator())
-            : ListView.builder(
-                itemBuilder: (context, index) => Text(blogs[index].author!),
-                itemCount: blogs.length));
+            : RefreshIndicator(
+                onRefresh: () async {
+                  fetchBlogs();
+                },
+                child: ListView.builder(
+                    itemBuilder: (context, index) =>
+                        BlogItem(blog: blogs[index]),
+                    itemCount: blogs.length),
+              ));
   }
 }
