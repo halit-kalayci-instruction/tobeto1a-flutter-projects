@@ -43,7 +43,7 @@ class _AddBlogState extends State<AddBlog> {
     final response = await request.send();
 
     if (response.statusCode == 201) {
-      Navigator.pop(context);
+      Navigator.pop(context, true);
     }
   }
 
