@@ -23,52 +23,51 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text("Bloglar"),
-          actions: [
-            IconButton(
-                onPressed: () async {
-                  bool? result = await Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (ctx) => AddBlog()));
-                },
-                icon: const Icon(Icons.add))
-          ],
-        ),
-        // 11:15
-        body: BlocProvider(
-          create: (context) =>
-              ArticleBloc(articleRepository: ArticleRepository()),
-          child:
-              BlocBuilder<ArticleBloc, ArticleState>(builder: (context, state) {
-            if (state is ArticlesInitial) {
-              // bloc'a fetcharticles eventi göndermek
-              context
-                  .read<ArticleBloc>()
-                  .add(FetchArticles()); // UI'dan BLOC'a Event
-              return const Center(child: Text("İstek atılıyor..."));
-            }
+      appBar: AppBar(
+        title: const Text("Bloglar"),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                bool? result = await Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (ctx) => AddBlog()));
 
-            if (state is ArticlesLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
+                if (result == true) {
+                  context.read<ArticleBloc>().add(FetchArticles());
+                }
+              },
+              icon: const Icon(Icons.add))
+        ],
+      ),
+      body: BlocBuilder<ArticleBloc, ArticleState>(builder: (context, state) {
+        if (state is ArticlesInitial) {
+          // bloc'a fetcharticles eventi göndermek
+          context
+              .read<ArticleBloc>()
+              .add(FetchArticles()); // UI'dan BLOC'a Event
+          return const Center(child: Text("İstek atılıyor..."));
+        }
 
-            if (state is ArticlesLoaded) {
-              return ListView.builder(
-                  itemCount: state.blogs.length,
-                  itemBuilder: (context, index) =>
-                      BlogItem(blog: state.blogs[index]));
-            }
+        if (state is ArticlesLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-            if (state is ArticlesError) {
-              return const Center(
-                child: Text("Bloglar yüklenirken bir hata oluştu."),
-              );
-            }
+        if (state is ArticlesLoaded) {
+          return ListView.builder(
+              itemCount: state.blogs.length,
+              itemBuilder: (context, index) =>
+                  BlogItem(blog: state.blogs[index]));
+        }
 
-            return const Center(
-              child: Text("Unknown State"),
-            );
-          }),
-        ));
+        if (state is ArticlesError) {
+          return const Center(
+            child: Text("Bloglar yüklenirken bir hata oluştu."),
+          );
+        }
+
+        return const Center(
+          child: Text("Unknown State"),
+        );
+      }),
+    );
   }
 }
