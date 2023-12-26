@@ -7,7 +7,9 @@ import 'package:miniblog/screens/homepage.dart';
 void main() {
   runApp(MultiBlocProvider(providers: [
     BlocProvider<ArticleBloc>(
-        create: (context) =>
-            ArticleBloc(articleRepository: ArticleRepository())),
+      create: (context) => ArticleBloc(
+        articleRepository: ArticleRepository(),
+      ),
+    ),
   ], child: const MaterialApp(home: Homepage())));
 }
