@@ -1,8 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:miniblog/models/blog.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:miniblog/blocs/article_bloc/article_bloc.dart';
+import 'package:miniblog/blocs/article_bloc/article_event.dart';
+import 'package:miniblog/blocs/article_bloc/article_state.dart';
+import 'package:miniblog/repositories/article_repository.dart';
 import 'package:miniblog/screens/add_blog.dart';
 import 'package:miniblog/widgets/blog_item.dart';
 
@@ -14,23 +15,9 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  List<Blog> blogs = [];
-
   @override
   void initState() {
     super.initState();
-    fetchBlogs();
-  }
-
-  // DRY - Dont repeat yourself
-  fetchBlogs() async {
-    Uri url = Uri.parse("https://tobetoapi.halitkalayci.com/api/Articles");
-    final response = await http.get(url);
-    final List jsonData = json.decode(response.body);
-
-    setState(() {
-      blogs = jsonData.map((json) => Blog.fromJson(json)).toList();
-    });
   }
 
   @override
@@ -43,24 +30,45 @@ class _HomepageState extends State<Homepage> {
                 onPressed: () async {
                   bool? result = await Navigator.of(context)
                       .push(MaterialPageRoute(builder: (ctx) => AddBlog()));
-
-                  if (result == true) {
-                    fetchBlogs();
-                  }
                 },
                 icon: const Icon(Icons.add))
           ],
         ),
-        body: blogs.isEmpty
-            ? const Center(child: CircularProgressIndicator())
-            : RefreshIndicator(
-                onRefresh: () async {
-                  fetchBlogs();
-                },
-                child: ListView.builder(
-                    itemBuilder: (context, index) =>
-                        BlogItem(blog: blogs[index]),
-                    itemCount: blogs.length),
-              ));
+        // 11:15
+        body: BlocProvider(
+          create: (context) =>
+              ArticleBloc(articleRepository: ArticleRepository()),
+          child:
+              BlocBuilder<ArticleBloc, ArticleState>(builder: (context, state) {
+            if (state is ArticlesInitial) {
+              // bloc'a fetcharticles eventi göndermek
+              context
+                  .read<ArticleBloc>()
+                  .add(FetchArticles()); // UI'dan BLOC'a Event
+              return const Center(child: Text("İstek atılıyor..."));
+            }
+
+            if (state is ArticlesLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state is ArticlesLoaded) {
+              return ListView.builder(
+                  itemCount: state.blogs.length,
+                  itemBuilder: (context, index) =>
+                      BlogItem(blog: state.blogs[index]));
+            }
+
+            if (state is ArticlesError) {
+              return const Center(
+                child: Text("Bloglar yüklenirken bir hata oluştu."),
+              );
+            }
+
+            return const Center(
+              child: Text("Unknown State"),
+            );
+          }),
+        ));
   }
 }
