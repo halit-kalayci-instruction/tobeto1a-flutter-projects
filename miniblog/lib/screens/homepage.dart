@@ -22,6 +22,7 @@ class _HomepageState extends State<Homepage> {
     fetchBlogs();
   }
 
+  // DRY - Dont repeat yourself
   fetchBlogs() async {
     Uri url = Uri.parse("https://tobetoapi.halitkalayci.com/api/Articles");
     final response = await http.get(url);
