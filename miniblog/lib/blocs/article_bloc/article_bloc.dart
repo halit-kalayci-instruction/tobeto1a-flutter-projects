@@ -24,6 +24,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
     } catch (e) {
       emit(ArticlesError());
     }
+    // merhaba
   }
 
   void _onFetchDetail(
