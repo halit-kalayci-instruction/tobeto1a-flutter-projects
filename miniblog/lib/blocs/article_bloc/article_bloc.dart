@@ -17,6 +17,7 @@ class ArticleBloc extends Bloc<ArticleEvent, ArticleState> {
   }
 
   void _onFetchArticles(FetchArticles event, Emitter<ArticleState> emit) async {
+    // merhaba 2
     emit(ArticlesLoading());
     try {
       final articles = await articleRepository.fetchAllBlogs();
