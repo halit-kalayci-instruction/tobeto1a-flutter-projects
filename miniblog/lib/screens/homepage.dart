@@ -17,6 +17,11 @@ class _HomepageState extends State<Homepage> {
   @override
   void initState() {
     super.initState();
+    context.read<ArticleBloc>().add(ResetEvent());
+  }
+
+  void fetchAgain() {
+    context.read<ArticleBloc>().add(FetchArticles());
   }
 
   @override
@@ -53,8 +58,10 @@ class _HomepageState extends State<Homepage> {
         if (state is ArticlesLoaded) {
           return ListView.builder(
               itemCount: state.blogs.length,
-              itemBuilder: (context, index) =>
-                  BlogItem(blog: state.blogs[index]));
+              itemBuilder: (context, index) => BlogItem(
+                    blog: state.blogs[index],
+                    onBack: () => fetchAgain(),
+                  ));
         }
 
         if (state is ArticlesError) {

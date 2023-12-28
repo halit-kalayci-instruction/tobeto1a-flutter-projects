@@ -20,3 +20,13 @@ class ArticlesLoaded extends ArticleState {
 }
 
 class ArticlesError extends ArticleState {}
+
+class ArticlesDetailLoading extends ArticleState {}
+
+class ArticlesDetailLoaded extends ArticleState {
+  final Blog blog;
+
+  ArticlesDetailLoaded({required this.blog});
+}
+
+class ArticlesDetailError extends ArticleState {}
