@@ -13,7 +13,6 @@ class Auth extends StatefulWidget {
 class _AuthState extends State<Auth> {
   final _formKey = GlobalKey<FormState>();
   var _isLogin = true;
-
   var _email = '';
   var _password = '';
 
@@ -22,16 +21,24 @@ class _AuthState extends State<Auth> {
 
     if (_isLogin) {
       // Giriş Sayfası
+      try {
+        final userCredentials = await firebaseAuthInstance
+            .signInWithEmailAndPassword(email: _email, password: _password);
+        print(userCredentials);
+      } on FirebaseAuthException catch (error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(error.message ?? "Giriş Başarısız")));
+      }
     } else {
       // Kayıt Sayfası
       try {
         final userCredentials = await firebaseAuthInstance
             .createUserWithEmailAndPassword(email: _email, password: _password);
         print(userCredentials);
-      } on Exception catch (error) {
+      } on FirebaseAuthException catch (error) {
         // Hata mesajı göster..
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("Kayıt başarısız")));
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(error.message ?? "Kayıt başarısız.")));
       }
     }
   }
