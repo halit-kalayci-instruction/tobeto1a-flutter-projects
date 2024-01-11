@@ -8,10 +8,55 @@ class Auth extends StatefulWidget {
 }
 
 class _AuthState extends State<Auth> {
+  var _isLogin = true;
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text("Merhaba"),
+    return Scaffold(
+      body: Center(
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Card(
+                margin: const EdgeInsets.all(20),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Form(
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration:
+                              const InputDecoration(labelText: "E-posta"),
+                          autocorrect: false,
+                          keyboardType: TextInputType.emailAddress,
+                        ),
+                        TextFormField(
+                          decoration: const InputDecoration(labelText: "Şifre"),
+                          autocorrect: false,
+                          obscureText: true,
+                        ),
+                        ElevatedButton(
+                            onPressed: () {},
+                            child: Text(_isLogin ? "Giriş Yap" : "Kayıt Ol")),
+                        TextButton(
+                            onPressed: () {
+                              setState(() {
+                                _isLogin = !_isLogin;
+                              });
+                            },
+                            child: Text(_isLogin
+                                ? "Kayıt Sayfasına Git"
+                                : "Giriş Sayfasına Git"))
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
