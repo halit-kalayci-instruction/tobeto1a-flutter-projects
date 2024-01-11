@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebaseexample/firebase_options.dart';
+import 'package:firebaseexample/screens/auth.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -7,5 +8,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MaterialApp());
+  runApp(const MaterialApp(
+    home: Auth(),
+  ));
 }
