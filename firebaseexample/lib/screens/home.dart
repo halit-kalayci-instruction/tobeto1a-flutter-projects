@@ -30,10 +30,13 @@ class _HomeState extends State<Home> {
   void _getUserImage() async {
     final user = firebaseAuthInstance.currentUser;
     final document = firebaseFireStore.collection("users").doc(user!.uid);
-    final documentSnapshot = await document.get();
-
+    final documentSnapshot =
+        await document.get(); // document.get => dökümanın okunmasını sağlar.
+    // documentSnapshot => dökümanın tamamı
+    print("documentSnapshot");
     setState(() {
-      _imageUrl = documentSnapshot.get("imageUrl");
+      _imageUrl = documentSnapshot.get(
+          "imageUrl"); // documentSnapshot.get => dökümanın içindeki field'ı okur
     });
   }
 
@@ -59,7 +62,9 @@ class _HomeState extends State<Home> {
 
     final document = firebaseFireStore.collection("users").doc(user!.uid);
 
-    await document.update({'imageUrl': url});
+    await document.update({
+      'imageUrl': url
+    }); // document.update => verilen değeri ilgili dökümanda günceller!
   }
 
   @override
@@ -76,30 +81,36 @@ class _HomeState extends State<Home> {
         ],
       ),
       body: Center(
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          if (_imageUrl.isNotEmpty && _pickedFile == null)
-            CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.grey,
-              foregroundImage: NetworkImage(_imageUrl),
-            ),
-          if (_pickedFile != null)
-            CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.grey,
-              foregroundImage: FileImage(_pickedFile!),
-            ),
-          TextButton(
-              onPressed: () {
-                _pickImage();
-              },
-              child: const Text("Resim Seç")),
-          if (_pickedFile != null)
-            ElevatedButton(
-                onPressed: () {
-                  _upload();
-                },
-                child: const Text("Yükle"))
+        child: Column(children: [
+          const SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (_imageUrl.isNotEmpty && _pickedFile == null)
+                CircleAvatar(
+                  radius: 40,
+                  backgroundColor: Colors.grey,
+                  foregroundImage: NetworkImage(_imageUrl),
+                ),
+              if (_pickedFile != null)
+                CircleAvatar(
+                  radius: 40,
+                  backgroundColor: Colors.grey,
+                  foregroundImage: FileImage(_pickedFile!),
+                ),
+              TextButton(
+                  onPressed: () {
+                    _pickImage();
+                  },
+                  child: const Text("Resim Seç")),
+              if (_pickedFile != null)
+                ElevatedButton(
+                    onPressed: () {
+                      _upload();
+                    },
+                    child: const Text("Yükle"))
+            ],
+          )
         ]),
       ),
     );

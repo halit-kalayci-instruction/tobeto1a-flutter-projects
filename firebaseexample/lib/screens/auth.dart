@@ -39,8 +39,9 @@ class _AuthState extends State<Auth> {
         print(userCredentials);
         firebaseFirestore
             .collection("users")
-            .doc(userCredentials.user!.uid)
-            .set({'email': _email});
+            .doc(userCredentials.user!
+                .uid) // içerisine id aldığında o id'yi almadığına AUTO-ID kullanır.
+            .set({'email': _email}); // Verilen değeri ilgili dökümana yazar.
       } on FirebaseAuthException catch (error) {
         // Hata mesajı göster..
         ScaffoldMessenger.of(context).showSnackBar(
