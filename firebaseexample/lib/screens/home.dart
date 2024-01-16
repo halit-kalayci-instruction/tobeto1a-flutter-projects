@@ -31,9 +31,11 @@ class _HomeState extends State<Home> {
     print("GetUserImage");
     final user = firebaseAuthInstance.currentUser;
     final document = firebaseFireStore.collection("users").doc(user!.uid);
+    final documentSnapshot = await document.get();
 
-    print(document);
-    print(document.get());
+    setState(() {
+      _imageUrl = documentSnapshot.get("imageUrl");
+    });
   }
 
   void _pickImage() async {
@@ -80,19 +82,19 @@ class _HomeState extends State<Home> {
           CircleAvatar(
             radius: 40,
             backgroundColor: Colors.grey,
-            foregroundImage:
-                _pickedFile != null ? FileImage(_pickedFile!) : null,
+            foregroundImage: NetworkImage(_imageUrl),
           ),
           TextButton(
               onPressed: () {
                 _pickImage();
               },
               child: const Text("Resim Seç")),
-          ElevatedButton(
-              onPressed: () {
-                _upload();
-              },
-              child: const Text("Yükle"))
+          if (_pickedFile != null)
+            ElevatedButton(
+                onPressed: () {
+                  _upload();
+                },
+                child: const Text("Yükle"))
         ]),
       ),
     );
