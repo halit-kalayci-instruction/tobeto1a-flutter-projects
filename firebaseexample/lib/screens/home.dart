@@ -19,6 +19,22 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   File? _pickedFile;
+  String _imageUrl = '';
+
+  @override
+  void initState() {
+    _getUserImage();
+    super.initState();
+  }
+
+  void _getUserImage() async {
+    print("GetUserImage");
+    final user = firebaseAuthInstance.currentUser;
+    final document = firebaseFireStore.collection("users").doc(user!.uid);
+
+    print(document);
+    print(document.get());
+  }
 
   void _pickImage() async {
     final image = await ImagePicker()
