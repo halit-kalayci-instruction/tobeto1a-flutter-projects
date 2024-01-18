@@ -33,16 +33,30 @@ class _HomeState extends State<Home> {
   void _requestNotificationPermission() async {
     NotificationSettings notificationSettings = await fcm.requestPermission();
 
-    String? token = await fcm.getToken();
+    if (notificationSettings.authorizationStatus ==
+        AuthorizationStatus.denied) {
+      // bildirimlere izin verilmedi
+    } else {
+      String? token = await fcm.getToken();
 
-    if (token == null) {
-      // kullanıcıya bir uyarı göster..
+      if (token == null) {
+        // kullanıcıya bir uyarı göster..
+      }
+      _updateTokenInDb(token!);
+
+      await fcm.subscribeToTopic("chat");
+
+      fcm.onTokenRefresh.listen((token) {
+        _updateTokenInDb(token);
+      }).onError((error) {});
     }
+  }
+
+  void _updateTokenInDb(String token) async {
     await firebaseFireStore
         .collection("users")
         .doc(firebaseAuthInstance.currentUser!.uid)
         .update({'fcm': token});
-    // deeplink
   }
 
   void _getUserImage() async {
