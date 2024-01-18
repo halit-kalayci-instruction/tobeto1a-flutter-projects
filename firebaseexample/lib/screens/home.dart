@@ -59,6 +59,7 @@ class _HomeState extends State<Home> {
         .update({'fcm': token});
   }
 
+  // 10:25 pairlerdeyiz
   void _getUserImage() async {
     final user = firebaseAuthInstance.currentUser;
     final document = firebaseFireStore.collection("users").doc(user!.uid);
