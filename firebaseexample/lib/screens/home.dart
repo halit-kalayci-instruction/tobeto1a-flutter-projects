@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +10,7 @@ import 'package:image_picker/image_picker.dart';
 final firebaseAuthInstance = FirebaseAuth.instance;
 final firebaseStorageInstance = FirebaseStorage.instance;
 final firebaseFireStore = FirebaseFirestore.instance;
+final fcm = FirebaseMessaging.instance;
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -23,8 +25,24 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
+    _requestNotificationPermission();
     _getUserImage();
     super.initState();
+  }
+
+  void _requestNotificationPermission() async {
+    NotificationSettings notificationSettings = await fcm.requestPermission();
+
+    String? token = await fcm.getToken();
+
+    if (token == null) {
+      // kullanıcıya bir uyarı göster..
+    }
+    await firebaseFireStore
+        .collection("users")
+        .doc(firebaseAuthInstance.currentUser!.uid)
+        .update({'fcm': token});
+    // deeplink
   }
 
   void _getUserImage() async {
@@ -116,3 +134,6 @@ class _HomeState extends State<Home> {
     );
   }
 }
+// Authentication
+// Profil Düzenleme (Storage)
+// Takvim? Pair 8
